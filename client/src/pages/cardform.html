@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body" style="margin-top: 10%;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-1" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);padding: 10px;">
+                            <div class="card-title">
+                                <h2 style="margin: 0px; text-align: center;">Profile Settings</h2>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            <div class="btn-div">
+                                <a href="#" class="btn btn-primary">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-1" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);padding: 10px;">
+                            <div class="card-title">
+                                <h2 style="margin: 0px; text-align: center;">Profile Settings</h2>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+ <!-- <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+           <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                </div>
+           </div>
+          <div class="col-md-5 border-right" >
+            <div class="p-3 py-5"   style={{ border: "solid black",transform: "translate(-68px, 5px)" }}>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 style={{fontFamily:"cursive"}}>Profile Settings</h2><br/>
+                </div>
+
+
+        {   list.map((val)=>{
+            return(
+                <>
+                <div class="row mt-2" style={{padding:"10px",fontFamily:"cursive"}}>
+                    <div class="col-md-12"><label class="labels">First Name</label><input type="text" class="form-control" placeholder="Your name" ></input></div>
+                    <div class="col-md-12"><label class="labels"></label><input type="text" class="form-control" placeholder="Your name"  value={val.last_name}></input></div>
+            
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value={val.mobile}  readonly/></div>
+
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value={val.mail_id}></input></div>
+                      
+                </div>
+                <br/>
+                <button class="btn btn-submit btn-bold" onClick={logout} style={{fontFamily:"cursive"}}>Log Out</button>
+                </>
+                )
+        })
+
+        }
+             
+
+                <br/><br/>
+
+            </div>
+         </div>
+       
+         <div class="col-md-4" style={{backgroundColor:"#B5D0E0",opacity:"1",fontFamily:"cursive"}}>
+
+            <div class="p-3 py-5" >
+            <h2 class="change" >Change Password</h2><br/>
+    
+            <div class="modal-body align-w3" >
+         
+                <input type="hidden" name="email" ></input>
+                <div class="col-md-12"><label class="labels">Current  password</label><input type="password" class="form-control" placeholder="Old password" name="oldpassword" id="oldpass"/></div> 
+                <div class="col-md-12"><label class="labels">Enter New Password</label><input type="password" class="form-control" placeholder="New Password" name="newpassword" id="newpass" /></div> 
+                <div class="col-md-12"><label class="labels"> Re-Enter New Password</label><input type="password" class="form-control" placeholder="New Password" name="newpassword" id="retypepass"/><br/><br/><br/></div>
+            
+             <div class="mt-5 text-center"><button class="btn btn-submit btn-bold" type="button" onClick={savepass}> Save Password </button>
+</div>
+            </div>
+            </div>
+<br/>
+         </div>
+        
+</div>
+</div>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- {/* <h1 style={{ color: "#98BF64", fontSize: "xxx-large", fontFamily: "cursive" }}><b>Sign Up</b></h1>
+<div id="main-content" className="main-content">
+    <div className="container" style={{ display: "flex" }}>
+        <div className="row" style={{ fontFamily: "cursive" }}>
+            <div className="col-lg-8" style={{ width: "566px" }}>
+                <div className="signin-container">
+                    <form onSubmit={handleSubmit(submitRegistration)}>
+                        <div style={{ display: "flex", gap: "58px" }}>
+                            <p className="form-row">
+                                <label>First Name:<span className="requite">*</span></label>
+                                <input type="text" {...register("first_name", { required: "First name is mandatory." })} placeholder="Enter Your First Name" />
+                                {errors.first_name && <span className="error">{errors.first_name.message}</span>}
+                            </p>
+                            <p className="form-row">
+                                <label htmlFor="last_name">Last Name:<span className="requite">*</span></label>
+                                <input type="text" {...register("last_name", { required: "Last name is mandatory." })} placeholder="Enter Your Last Name" />
+                                {errors.last_name && <span className="error">{errors.last_name.message}</span>}
+                            </p>
+                        </div>
+                        <p className="form-row">
+                            <label htmlFor="mobile">Mobile:<span className="requite">*</span></label>
+                            <input placeholder="Enter Your Mobile Number"
+                                type="tel"
+                                {...register("mobile", {
+                                    required: "Mobile number is mandatory.",
+                                    pattern: {
+                                        value: /^[6-9]\d{9}$/,
+                                        message: "Mobile number must start with 6, 7, 8, or 9 and be exactly 10 digits long."
+                                    }
+                                })}
+                            />
+                            {errors.mobile && <span className="error">{errors.mobile.message}</span>}
+                        </p>
+                        <p className="form-row">
+                            <label htmlFor="mail_id">Email:<span className="requite">*</span></label>
+                            <input type="email" {...register("mail_id", { required: "Email is mandatory." })} placeholder="Enter Your EmailId"/>
+                            {errors.mail_id && <span className="error">{errors.mail_id.message}</span>}
+                        </p>
+                        <p className="form-row">
+                            <label htmlFor="password">Password:<span className="requite">*</span></label>
+                            <input placeholder="Enter Your Password"
+                                type="password"
+                                {...register("password", {
+                                    required: "Password is mandatory.",
+                                    pattern: {
+                                        value: /^(?=.*[!@#$%^&*])(?=.*\d)(?=.*[a-zA-Z]).{8,}$/,
+                                        message: "Password must contain at least one special character, one digit, one letter, and be at least 8 characters long."
+                                    }
+                                })}
+                            />
+                            {errors.password && <span className="error">{errors.password.message}</span>}
+                        </p>
+                        <p className="form-row">
+                            <label htmlFor="address">Address:<span className="requite">*</span></label>
+                            <textarea {...register("address", { required: "Address is mandatory." })} placeholder="Enter Your Address here." className="col-lg-12"></textarea>
+                            {errors.address && <span className="error">{errors.address.message}</span>}
+                        </p>
+                        <br/><br/><br/><br/>
+                        <p className="form-row">
+                            <label htmlFor="captcha">Captcha:<span className="requite">*</span></label>
+                            <div style={{backgroundColor:"#4F517D",color:"white",padding:"10px",borderRadius:"10px",width:"220px"}}>{expression}</div><br/>
+                            <input
+                                type="text"
+                                value={userAnswer}
+                                onChange={(e) => setUserAnswer(e.target.value)}
+                            />
+                        </p>
+                        <br />
+                        <p className="form-row wrap-btn">
+                            <button className="btn btn-submit btn-bold" type="submit">Sign Up</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  */} -->
