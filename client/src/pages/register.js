@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import Axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -18,6 +20,17 @@ function Register() {
         setExpression(`${num1} ${operator} ${num2}`);
     };
 
+    const notify = () => {
+        toast.success('Your account created Successfully on BIOLIFE...!')
+    }
+    const warn = () => {
+        toast.error('Registration failed. Please try again later...😞');
+    }
+    const warn2 = () => {
+        toast.error('Wrong CAPTCHA answer. Please try again...😞');
+    }
+
+
     const submitRegistration = (data) => {
         const [operand1, operator, operand2] = expression.split(' ');
         const correctAnswer = eval(`${operand1} ${operator} ${operand2}`);
@@ -25,16 +38,15 @@ function Register() {
         if (parseInt(userAnswer) === correctAnswer) {
             Axios.post("http://localhost:1121/api/registration", data)
                 .then((response) => {
-                    alert("Registration successful");
+                    notify()
                     window.location = "/login";
                 })
                 .catch((error) => {
                     console.error("Error during registration:", error);
-                    alert("Registration failed. Please try again later.");
-                });
+                    warn();
+                                });
         } else {
-            alert("Wrong CAPTCHA answer. Please try again.");
-    
+            warn2()    
             generateExpression();
            
             setUserAnswer('');
@@ -56,7 +68,7 @@ function Register() {
                     <div class="col-md-6">
                     <div class="card-1" >
                         
-                    <img src=".\assets\images\signupfrom.png" style={{ width: "500px", height: "400px" }} />
+                    <img src=".\assets\images\signupfrom.png" style={{ width: "500px", height: "600px" }} />
 
                         </div>
                     </div>
@@ -117,7 +129,7 @@ function Register() {
                            
                            <div class="form-group">
                                 <label class="form-label">Address:</label>
-                                <textarea  class="form-control"{...register("address", { required: "Address is mandatory." })} placeholder="Enter Your Address here." className="col-lg-12"/>
+                                <textarea  className="form-control"{...register("address", { required: "Address is mandatory." })} placeholder="Enter Your Address here." />
                                
                             </div>{errors.address && <span className="error">{errors.address.message}</span>}   
                             <div class="form-group">
@@ -131,6 +143,16 @@ function Register() {
                             </div>
                              <div class="btn-div">
                                 <button   class="btn btn-primary btn-bold" ty>Sign Up</button>
+                                <ToastContainer position="bottom-center" autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
                             </div>
                             </form>
                         </div>

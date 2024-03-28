@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Axios from 'axios';
 import React, { useEffect ,useState } from 'react';
 
@@ -22,7 +23,26 @@ function Feedback(){
         window.location="/feedback"
        })
    }
+
+   const formatTime = (dateString) => {
+    const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    return new Date(dateString).toLocaleTimeString('en-US', options);
+};
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
    
+
+  const sendrespo=(uid, pid)=>{
+    const respo = document.getElementById("respo").value;
+// alert(uid +" " +pid+ " "+ res )
+    Axios.post("http://localhost:1121/api/sendresponse",{uid:uid, pid:pid, respo:respo}).then((Response)=>{
+        alert("response sended successfully.");
+        window.location="/feedback"
+       })
+   }
+
     return(
         <>
             <section class="content">
@@ -52,10 +72,11 @@ function Feedback(){
                                         <tr>
                                             <th>Name</th>
                                             <th data-breakpoints="xs">Email</th>
-                                            <th data-breakpoints="xs">Phone</th>
-                                            <th data-breakpoints="xs">Message or FAQ's</th>
-                                            <th data-breakpoints="xs">Date</th>
-                                           
+                                            <th data-breakpoints="xs">rate stars</th>
+                                            <th data-breakpoints="xs">feedback</th>
+                                            <th data-breakpoints="xs">Timing</th>
+                                            <th data-breakpoints="xs">send response</th>
+                                            <th data-breakpoints="xs">response</th>
                                             <th>Action</th> 
                                         </tr>
                                     </thead>
@@ -66,11 +87,14 @@ function Feedback(){
         <>
             <tbody>
                 <tr>
-                    <td>{val.user_name}</td>
-                    <td>{val.email_id}</td>
-                    <td>{val.ph_no}</td>
-                    <td>{val.msg}</td> 
-                    <td>{val.Timing}</td>
+                     <td>{val.user_name}</td> 
+                    <td>{val.mail_id}</td>
+                    {/* <td>{val.ph_no}</td> */}
+                    <td>{val.rating}</td>
+                    <td>{val.review_msg}</td> 
+                    <td>{formatDate(val.Atsubmit)}<br/> {formatTime(val.Atsubmit)}</td> 
+                    <td style={{display:"flex",gap:"5px"}}><input type='text' id="respo"  style={{height:"30px"}}/> <button style={{marginTop:"0px"}} class="btn btn-primary btn-block" onClick={(e)=>sendrespo(val.user_id, val.pdt_id,e)}>submit</button></td>
+                   <td>{val.response}</td>
                     <td ><button  class="btn btn-primary btn-block" data-target="#exampleModalCenter" data-toggle="modal" onClick={()=> delcontact(val.id)}><i class="zmdi zmdi-delete"></i></button></td>
                 </tr>
                                        

@@ -13,7 +13,9 @@ import Managecat from './Pages/managecategory';
 import Adminprofile from './Pages/adminprofile';
 import Reward from './Pages/reward';
 import Manageorder from './Pages/manageorder';
-// import Checkorder from './Pages/checkorder';
+import Approvedord from './Pages/approvedord';
+import Rejectedord from './Pages/rejectedord';
+
 function App() {
   return (
       <>
@@ -43,7 +45,9 @@ function App() {
     <Route exact path='/profile' element={<Adminprofile/>}/>
     <Route exact path='/rewards' element={<Reward/>}/>
     <Route exact path='/orders' element={<Manageorder/>}/>
-    {/* <Route exact path='/checkorder' element={<Checkorder/>}/> */}
+    <Route exact path='/approvord' element={<Approvedord/>}/>
+    <Route exact path='/rejectord' element={<Rejectedord/>}/>
+
       </Routes>
 
       </Router>

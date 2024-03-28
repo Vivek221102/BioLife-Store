@@ -250,8 +250,8 @@ const fetchData = () => {
                                                                        
 
                                                 <Link to="/login" class="btn wishlist-btn"><i class="fa fa-heart" aria-hidden="true"></i></Link>
-                                                <Link to="/login" class="btn add-to-cart-btn">View Product</Link>
-                                               <Link to="/login" class="btn compare-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true" ></i></Link>
+                                                <Link to="/login" class="btn add-to-cart-btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>View Product</Link>
+                                               <Link to="/login" class="btn compare-btn"><i class="fa fa-random" aria-hidden="true"></i></Link>
                                                 </div>
                                             </div>
                                         </div>

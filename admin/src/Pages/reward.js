@@ -56,18 +56,21 @@ Mobile : ${userdata.mobile}`);
           // "Consumer Name : " + userdata.name +" "+ userdata.lname +"    AND     "+ "Mobile: " + userdata.mobile
       
       
-        Axios.get("http://localhost:1121/api/getdetails", { params: { pid: pid, uid: uid } }).then((Response) => {
-            setPrid(Response.data[0].p_id);
-            // alert(Response.data[0].book_id)
-            setoid(Response.data[0].book_id)
-
-            setitem(Response.data);
-            totalquantity(Response.data);
-        })
-
-
+          Axios.get("http://localhost:1121/api/getdetails", { params: { pid: pid, uid: uid } }).then((response) => {
+            if (response.data && response.data.length > 0) {
+                setPrid(response.data[0].p_id);
+                setoid(response.data[0].book_id);
+                setitem(response.data);
+                totalquantity(response.data);
+            } else {
+                // Handle the case where response.data is empty or undefined
+                alert("Worng Product unique code please enter correct unique code again");
+                console.error("No data received or data is empty.");
+            }
+        }).catch(error => {
+            console.error("Error fetching data:", error);
+        });   
     }
-  
   const addqty = () => {
         let qtys = document.getElementById("addqt").value;
         settotalreward(qtys)
@@ -94,6 +97,8 @@ Mobile : ${userdata.mobile}`);
         }).then((response) => {
             console.log(response.data);
             alert("data added successfully.")
+
+            window.location="/rewards";
         })
 
     }
@@ -167,7 +172,7 @@ Mobile : ${userdata.mobile}`);
                                 </div>
                                 
                                 <div class="col-sm-4 offset-sm-2">
-                                        <button type="button" class="btn btn-raised btn-primary btn-round waves-effect" onClick={verifypdtid}>Check product id</button>
+                                        <button type="button" class="btn btn-raised btn-primary btn-round waves-effect" onClick={verifypdtid}>Check product</button>
                                     </div>
                                     {
                                         item.length > 0 && (
@@ -210,7 +215,7 @@ Mobile : ${userdata.mobile}`);
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="zmdi zmdi-phone"></i></span>
                                         </div>
-                                        <input type="number"  class="form-control mobile-phone-number" placeholder="Enter the Value of Quantity that given by User Smaller than or equal to Availble Quantity " id="addqt" />
+                                        <input type="number"  class="form-control mobile-phone-number" placeholder="Enter the Value of Quantity that given by User Smaller than or equal to Availble Quantity " id="addqt" min='1'  max={countqty}/>
                                     </div>
                                     <div class="col-sm-8 offset-sm-2">
                                         <button type="button" class="btn btn-raised btn-primary btn-round waves-effect"  onClick={addqty}>add Quantity</button>

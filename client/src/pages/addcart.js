@@ -83,7 +83,7 @@ const deletefromcart=(pid)=>{
 
    alert("sure you want to delete product from cart.")
     Axios.post("http://localhost:1121/api/deleteproduct",{uid:uid, pid:pid}).then((response)=>{
-        // window.location="/cart";
+        window.location="/cart";
     })
 }
 
@@ -117,48 +117,89 @@ const [rewd, setrewd] = useState(0)
 const usereward=(e)=>{
     e.preventDefault();
     let rwd = document.getElementById("usedrwd").value;
-    alert(rwd);
+    // alert(rwd);
     setrewd(rwd);
-    alert(totalpoint);
+    // alert(totalpoint);
    var price = parseInt(totalpoint)-parseInt(rwd);
-   alert(price);
+//    alert(price);
 }
 
 
 const getorder = async (prc) => {
-    // alert(prc)
-    let rwd =0;
-    
-    const url = "http://localhost:1121/api/insertorder";
-    try{
-        await
-        Axios.post(url, {uid: uid, prc:prc,rwd:rwd});
-        alert("payment done successfully 👍...");
-        window.location= "/cart";
-    } catch (error) {
-        console.log("error",error);
-        alert("created issue");
-    }
+    let rwd = 0;
 
+    const opt = {
+        "key": "rzp_test_ETjGIvnx2Bl3D3",
+        "amount": prc * 100, 
+        "name": "BIOLIFE",
+        "description": "purchase product",
+        "currency": "INR",
+        "netbanking": true,
+        "prefill": { 
+            name: "Vivek Parmar",
+            email: "vivek@gmail.com",
+            contact: "+919313231486", // Adding a plus sign to the contact number
+        },
+        "notes": {},
+        "handler": async function (response) {
+            const url = "http://localhost:1121/api/insertorder";
+            try {
+                await Axios.post(url, { uid: uid, prc: prc, rwd: rwd });
+                alert("Payment done successfully 👍...");
+                window.location = "/cart";
+            } catch (error) {
+                console.log("error", error);
+                alert("An issue occurred while processing payment");
+            }
+        },
+        "theme": {
+            "color": "#528FF0"
+        }
+    };
+
+    var rzp1 = new window.Razorpay(opt);
+    rzp1.open();
 }
 
 const getrewardorder = () => {
-    let rwd = document.getElementById("usedrwd").value; // Get the reward value
-    var prc = parseInt(totalprice)-parseInt(rewd);
-alert(rwd+" "+ prc);
+    let rwd = document.getElementById("usedrwd").value;
+    let prc = parseInt(totalprice) - parseInt(rwd);
+// alert(prc)
+    const opt = {
+        "key": "rzp_test_ETjGIvnx2Bl3D3",
+        "amount": prc * 100, 
+        "name": "BIOLIFE",
+        "description": "purchase product",
+        "currency": "INR",
+        "netbanking": true,
+        "prefill": { 
+            name: "Vivek Parmar",
+            email: "vivek@gmail.com",
+            contact: "+919313231486", // Adding a plus sign to the contact number
+        },
+        "notes": {
+            address: 'Razorpay Corporate Office'
+        },
+        "handler": async function (response) {
+            const url = "http://localhost:1121/api/insertorder";
+            try {
+                await Axios.post(url, { uid: uid, rwd: rwd, prc: prc });
+                alert("Payment done successfully 👍...");
+                window.location = "/cart";
+            } catch (error) {
+                console.log("error", error);
+                alert("An issue occurred while processing payment");
+            }
+        },
+        "theme": {
+            "color": "#90bf2a"
+        }
+    };
 
-const url = "http://localhost:1121/api/insertorder";
-try{
-    Axios.post(url, {uid: uid,rwd:rwd,prc:prc});
-    alert("payment done successfully 👍...");
-    window.location= "/cart";
-} catch (error) {
-    console.log("error",error);
-    alert("created issue");
+    var rzp1 = new window.Razorpay(opt);
+    rzp1.open();
 }
 
-
-}
     return(     
 <>
 
@@ -193,10 +234,10 @@ try{
                                     <tr className="cart_item">
                                         <td className="product-thumbnail" data-title="Product Name">
                                             <Link className="prd-thumb" to="/singleproduct" state={{ prid: val.p_id }}>
-                                                <figure><img  src={"http://localhost:1121/public/" +val.p_img } alt="shipping cart"  style= {{width:"113px", height:"113px"}}/></figure>
+                                                <figure><img  src={"http://localhost:1121/public/" +val.p_img } alt="shipping cart"  style= {{width:"113px", height:"113px",borderRadius:"100px"}}/></figure>
                                             </Link>
                                            
-                                            <Link className="prd-name" to="/singleproduct" state={{ prid: val.p_id }}>{val.p_name}</Link>
+                                            <Link className="prd-name" to="/singleproduct" state={{ prid: val.p_id }} style={{textDecoration:"none"}}>{val.p_name}</Link>
                                             <div className="action">
                                                 <Link  className="remove" onClick={(e)=>deletefromcart(val.product_id)}><i className="fa fa-trash-o" aria-hidden="true"></i></Link>
                                             </div>
@@ -268,9 +309,10 @@ try{
                                 </div>
                                
                            
-                                <div > <br/>
-                                <div className="btn-checkout">
-                                <Link to="#" className="btn checkout" onClick={handleButtonClick}>Use Your Reward</Link><br/>  
+                                <div > <br/>                                <p><b>for using reward click on below link </b> </p>
+
+                                <div style={{backgroundColor:"#90bf2a",borderRadius:"12px"}}>
+                                <Link to="#"  onClick={handleButtonClick} style={{color:"white",textDecoration:"none",fontWeight:"bold"}}>Use Your Reward</Link><br/>  
                                 </div>
                          {showValue ?
                          <p>

@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import {useState, useEffect} from 'react'; 
 import Axios from 'axios';
 import { SocialIcon } from 'react-social-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Singleprod(){
     
@@ -53,23 +55,31 @@ function Singleprod(){
             }
         }
         
-
-
-        const addtocart=(p_id)=>{
-        //     ,headers:{authorization: `sessionStorage.getItem('jwttoken')`
-        // }
-            Axios.post("http://localhost:1121/api/addcart",{uid:uid,p_id:p_id}).then((Response)=>{
-               
-            if(Response.data.msg){
-                alert(Response.data.msg)
-            }
-            else{
-
-                alert("added product in your cart ")
-                window.location="/product"
-            }
-            })
+        const notify = () => {
+            toast.success('Added product in your cart Successfully 👍...!');
         }
+        const warn = () => {
+            toast.error('Product aready in your cart...!');
+        }
+
+
+        const addtocart = (p_id) => {
+            Axios.post("http://localhost:1121/api/addcart", { uid: uid, p_id: p_id }).then((response) => {
+                if (response.data.msg) {
+                    warn();
+                } else {
+                    notifyAndRedirect();
+                }
+            });
+        };
+        
+        const notifyAndRedirect = () => {
+            notify();
+            setTimeout(() => {
+                window.location = "/product";
+            }, 2000); // Redirect after 2 seconds (adjust the delay as needed)
+        };
+        
         
         const addwishlist=(p_id)=>{
             // alert(p_id)
@@ -123,7 +133,7 @@ var review = document.getElementById('review').value;
             // console.log(response.data); 
 
             alert("your review successfully added 👍...");
-            window.location = "/"
+            window.location = "/singleproduct";
             // singleproduct
             response.data(name ,email , id , review , star).then((res)=>console.log(res)); 
         })
@@ -203,7 +213,7 @@ const handleWhatsAppClick=(e)=>{
                         <>
                         <div class="media">
                         <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
-                            <li><img src={"http://localhost:1121/public/" +val.p_img} alt="" style={{width:"500px", height:"500px"}} /></li>
+                            <li><img src={"http://localhost:1121/public/" +val.p_img} alt="" style={{width:"500px", height:"550px",borderRadius:"12px"}} /></li>
                            
                         </ul>
                         
@@ -261,7 +271,16 @@ const handleWhatsAppClick=(e)=>{
                         <Link to="/payment" state={{ pid:id, productsub: val.p_price*pdtqty, productName: val.p_name, productPrice: val.p_price, productImage: val.p_img, productQuantity: pdtqty}} style={{width:"120px", color:"white"}} class="btn btn-submit btn-bold" onClick={(e)=>buyproduct(val.p_id,e)}>Buy now</Link>
                         </div>
                         <div class="buttons">
-                        <button class="btn btn-submit btn-bold" state={{ p_id: val.p_id }} onClick={(e)=>addtocart(val.p_id)} style={{color:"white"}}>add to cart</button>
+                        <button class="btn btn-submit btn-bold" state={{ p_id: val.p_id }} onClick={(e)=>addtocart(val.p_id)} style={{color:"white"}}>add to cart</button><ToastContainer position="bottom-center" autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
                         </div>
                         <div class="buttons">
                             <p class="pull-row">
@@ -524,7 +543,7 @@ const handleWhatsAppClick=(e)=>{
                                                     <div class="comment-content col-lg-8 col-md-9 col-sm-8 col-xs-12">
                                                        
                                                       
-                                                         <p class="comment-in"  style={{textAlign:"left"}}><span class="post-name">Consumer Name: {val.user_name}</span><span class="post-date"> <b>Date:</b> {formatDate(val.Atsubmit)}, <b>Time:</b> {formatTime(val.Atsubmit)}</span></p>
+                                                         <p class="comment-in"  style={{textAlign:"left"}}><span class="post-name"><i class="biolife-icon icon-login"></i> {val.user_name}</span><span class="post-date"> <b>Date:</b> {formatDate(val.Atsubmit)}<br/> <b>Time:</b> {formatTime(val.Atsubmit)}</span></p>
                                                         {/* <div class="rating" style={{textAlign:"left"}}><p class="star-rating"><span class="width-80percent"></span></p></div> */}
                                                        
                                                        
@@ -549,9 +568,9 @@ const handleWhatsAppClick=(e)=>{
                                                         <p class="author" style={{textAlign:"left"}}>Product: <b>{pname}</b></p>
                                                        
                                                        
-                                                        <p class="comment-text" style={{textAlign:"left"}}>{val.review_msg}</p>
+                                                        <p class="comment-text" style={{textAlign:"left"}}><b>{val.review_msg}</b></p>
                                                            
-                                                       
+                                                        <p class="comment-text" style={{textAlign:"left"}}>{val.response}</p>
                                                     </div>
                                                     <div class="comment-review-form col-lg-3 col-lg-offset-1 col-md-3 col-sm-4 col-xs-12">
                                                         <span class="title">Was this review helpful?</span>

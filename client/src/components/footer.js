@@ -1,5 +1,7 @@
-import React from "react"
+import Axios from "axios";
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import { TiLocationArrow } from "react-icons/ti";
 function Footer(){
 
     let user = JSON.parse( sessionStorage.getItem("user_data"));
@@ -9,10 +11,57 @@ function Footer(){
         sessionStorage.clear();
         window.location="/";
         }
+// const [input, setinput] = useState(null);
+// const [respo, setresp] = useState(['']);
+       
+    const [input, setinput] = useState(null);
+    const [respo, setResp] = useState('');
+
+    const sendquestion = (e) => {
+        e.preventDefault(); 
+        const conversation = document.getElementById("conversation");
+        let msg = document.createElement("div");
+
+        Axios.post("http://localhost:1121/api/checkques", { input:input })
+            .then((response) => {
+                let ans = response.data && response.data[0] ? response.data[0].ans : null;
+                setResp(ans);
+
+                msg.classList.add('chatbot-message', 'user-message');
+                msg.innerHTML = `<p class="chatbot-text">${input}</p>`;
+                conversation.appendChild(msg);
+
+                if (ans === null) {
+                    msg = document.createElement("div");
+                    msg.classList.add("chatbot-message", "chatbot");
+                    msg.innerHTML = `<p class="chatbot-text">Sorry, we could not find your response</p>`;
+                    conversation.appendChild(msg);
+                } else {
+                    msg = document.createElement("div");
+                    msg.classList.add("chatbot-message", "chatbot");
+                    msg.innerHTML = `<p class="chatbot-text">${ans}</p>`;
+                    conversation.appendChild(msg);
+                }
+                setinput('');
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+
+                // Display error message in conversation
+                msg = document.createElement("div");
+                msg.classList.add("chatbot-message", "chatbot");
+                msg.innerHTML = `<p class="chatbot-text">Error: ${error.message}</p>`;
+                conversation.appendChild(msg);
+            });
+    };
 
     return(
         <>
+         <a class="btn-scroll-top"><i class="biolife-icon icon-left-arrow"></i></a> 
+         
+         
 <footer id="footer" class="footer layout-02">
+
         <div class="footer-content background-footer-03" style={{ backgroundColor: "black"}}>
             <div class="container">
                 <div class="row">
@@ -169,11 +218,11 @@ function Footer(){
 
         </div>
     </div>
-    <div class="mobile-block-global" style={{backgroundColor:"whitesmoke"}}>
+    <div class="mobile-block-global" style={{backgroundColor:"whitesmoke",visibility:"visible"}}>
         <div class="biolife-mobile-panels">
             <span class="biolife-current-panel-title"><Link to="/" class="biolife-logo"><img src="assets/images/logo-01/organic-2-footer.png" alt="biolife logo" style={{width:"140px", height:"40px"}}/></Link>
             </span>
-            <Link class="biolife-close-btn" data-object="global-panel-opened" href="#">&times;</Link>
+            <Link class="biolife-close-btn" data-object="global-panel-opened" style={{textDecoration:"none"}}>&times;</Link>
         </div>
         <div class="block-global-contain">
             <div class="glb-item my-account">
@@ -245,13 +294,106 @@ function Footer(){
             </div>
             <div class="glb-item languages">
                 <b class="title"></b>
+
                 <ul class="list inline">
-                <Link to="/" class="btn view-cart" style={{backgroundColor:"#90bf2a",color:"white",borderRadius:"10px",marginTop:"10px"}} onClick={logout}>Log Out</Link>
+                { sessionStorage.getItem("user_data") == null ?
+                                <>  </> 
+                                 :
+                                <> <Link to="/" class="btn view-cart" style={{backgroundColor:"#90bf2a",color:"white",borderRadius:"10px",marginTop:"10px"}} onClick={logout}>Log Out</Link></>
+                            }
+
                 </ul>
+
             </div>
         </div>
     </div>
+    <div style={{ position: "fixed", bottom: "20px", left: "20px", zIndex: "9999" }}>
+                <button
+                    style={{
+                        backgroundColor: "#90bf2a",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: "60px",
+                        height: "60px",
+                        fontSize: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        cursor: "pointer"
+                    }}
+                    onClick={() => {
+                        // Add functionality for FAQ button click (open chatbot)
+                    }}
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                >
+                    ?
+                </button>
+            </div>
+            <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
 
+        // style={{width:"500px", height}}
+      >
+        {/* <div class="modal-dialog" role="document"> */}
+          {/* <div class="modal-content"> */}
+            {/* <div class="modal-header"> */}
+              
+             
+            {/* </div> */}
+            {/* <div class="modal-body"> */}
+            <div class="footer-content">
+    <div class="container">
+        <div class="row">
+        <div class="chatbot-container container row" style={{width:"380px",borderRadius:"12px",border:"2px solid"}}>
+                <div id="header" style={{backgroundColor:"#90bf2a",borderRadius:"12px",color:"white",fontWeight:"bold"}}>
+                  <h1>BIOCHAT </h1>
+                  <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div id="chatbot">
+                  <div id="conversation">
+                    <div class="chatbot-message">
+                      <p class="chatbot-text">Hi! 👋 it''s great to see you!</p>
+                    </div>
+                  </div>
+                  <form id="input-form">
+                    <message-container>
+                      <input
+                        id="input-field"
+                        type="text"
+                        placeholder="Type your message here"
+                        value={input}
+                        onChange={(e)=>setinput(e.target.value)}
+                      />
+                      <button id="submit-button" type="submit" style={{backgroundColor:"#90bf2a",color:"white",width:"80px",height:"35px",borderRadius:"25px"}} onClick={(e)=>sendquestion(e)} >
+                      <TiLocationArrow style={{height: "2em",width: "5em"}} /> {/* <img class="send-icon" src="send-message.png" alt="send" /> */}
+                      </button>
+                    </message-container>
+                  </form>
+                </div>
+              </div>
+            {/* </div> */}
+          {/* </div> */}
+        {/* </div> */}
+      </div>
+        </div>
+    </div>
+</div>
+             
         </>
     )
 }export default Footer

@@ -20,7 +20,6 @@ function Checkout(){
 
     const [list, setlist]= useState(['']);
 
-
 useEffect(()=>{
    
     Axios.get("http://localhost:1121/api/fetchorder",{params:{uid:uid}}).then((Response)=>{
@@ -65,7 +64,9 @@ const formatDate = (dateString) => {
                                 <table class="shop_table cart-form">
                                     <thead>
                                     <tr> 
+                                        <th >Sr. no.</th>
                                         <th className="product-price">Oreder ID</th>
+                                        <th className="product-price">Total Price</th>
                                         <th className="product-price">when oredered</th>
                                         <th className="product-price">View Invoice</th>
                                     </tr>
@@ -82,10 +83,16 @@ const formatDate = (dateString) => {
                                         </td> */}
                                         
             
+                                        <td className="product-price" data-title="Price">
+                                            <div className="price price-contain">
+                                                <ins><span className="price-amount" key={index}>  {index+1}.</span></ins>
+                                           
+                                            </div>
+                                        </td>
 
                                         <td className="product-price" data-title="Price">
                                             <div className="price price-contain">
-                                                <ins><span className="price-amount" key={index}> {index+1}] {val.book_id}</span></ins>
+                                                <ins><span className="price-amount" >  {val.book_id}</span></ins>
                                            
                                             </div>
                                         </td>
@@ -106,6 +113,12 @@ const formatDate = (dateString) => {
                                                 <del><span className="price-amount"><span className="currencySymbol">£</span>95.00</span></del>
                                             </div>
                                         </td> */}
+                                        <td className="product-price" data-title="Price">
+                                            <div className="price price-contain">
+                                            <ins><span className="price-amount" ><span className="currencySymbol"><i className="fa fa-inr" aria-hidden="true"></i></span>  {val.prc}</span></ins>
+
+                                            </div>
+                                        </td>
                                         <td className="product-price" data-title="Price">
                                             <div className="price price-contain">
                                             <ins><span className="price-amount">{formatDate(val.when_oredered)}</span>  </ins> 

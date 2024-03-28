@@ -50,10 +50,12 @@ function Sidebar(){
             <li> <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-shopping-cart-plus"></i><span>orders</span></a>
                 <ul class="ml-menu">
                     <li><a href="/orders">Manage Order</a></li>
+                    <li><a href="/approvord">Approved Order</a></li>
+                    <li><a href="/rejectord">Rejected Order</a></li>
                     {/* <li><a href=""><i class="zmdi zmdi-truck"></i>delivery</a></li> */}
                 </ul>
             </li>
-            <li><Link to="/"><i class="zmdi zmdi-money"></i><span>Payment</span></Link> </li>
+            {/* <li><Link to="/"><i class="zmdi zmdi-money"></i><span>Payment</span></Link> </li> */}
             <li><Link to="/rewards"><i class="zmdi ti-gift"></i><span>Rewards</span></Link> </li>
             <li ><Link to="/feedback"><i class="zmdi zmdi-thumb-up"></i><span>Feedback</span></Link></li>   
             <li ><Link   class="mega-menu" title="Sign Out" onClick={forlogout}><i class="zmdi zmdi-power"></i><span>Sign Out</span></Link></li><br/>

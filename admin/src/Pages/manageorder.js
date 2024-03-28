@@ -10,39 +10,51 @@ useEffect(()=>{
     })
 
 },[])
-const [oid, setoid] = useState(null);
+const [bid, setbid] = useState(null)
 const [order, setorderdetail] = useState(['']);
 const fetchord=(bid)=>{
-    // alert(bid)
-        setoid(bid)
+        // setbid(bid);
             Axios.get("http://localhost:1121/api/fetchorderdetails",{params:{id: bid}})
             .then((response)=>{
                 setorderdetail(response.data);
             })
+            .catch(error => {
+                // Log the error for debugging
+                console.error('Error:', error);
+              })
 }
-// alert(oid)
-const aproveord = (orid) => {
-    alert(orid);
 
-    Axios.post("http://localhost:1121/api/approveorder", { orid: orid }).then((response) => {
-        alert("added in approved orders");
-      
-        window.location.reload();
-    });
-};
+const acceptord=()=>{
+// alert(bid)
+Axios.post("http://localhost:1121/api/approveoid",{bid: bid})
+.then((response)=>{
+    alert("order Approved.")
+})
+.catch(error => {
+    // Log the error for debugging
+    console.error('Error:', error);
+  })
+}
 
-const rejectord = (orid) => {
-    alert(orid);
-    Axios.post("http://localhost:1121/api/rejectorder", { orid: orid }).then((response) => {
-        alert("added in reject orders");
-        window.location.reload();
-    });
-};
+const rejectord=()=>{
+// alert(bid)
+Axios.post("http://localhost:1121/api/rejectoid",{bid: bid})
+.then((response)=>{
+    alert("order rejected.")
+})
+.catch(error => {
+    // Log the error for debugging
+    console.error('Error:', error);
+  })
+}
 
 const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+
+
     return(
     <>
         <section class="content">
@@ -91,7 +103,7 @@ const formatDate = (dateString) => {
                     {/* <td><img src={"http://localhost:1121/public/" +val.p_img } alt="dd" style={{width:"67px", height:"150px"  }}  class="product-thumnail"/></td>  */}
                     {/* <td>{val.qty}</td>
                     <td>{val.prc}</td> */}
-                    <td style={{width:"50px",height:"10px"}}><button  class="btn btn-primary btn-block" data-toggle="modal" data-target="#largeModal" onClick={(e)=>fetchord(val.book_id,e)}><i class="zmdi zmdi-eye"></i> </button></td> 
+                    <td style={{width:"50px",height:"10px"}}><button  class="btn btn-primary btn-block" data-toggle="modal" data-target="#largeModal" onClick={()=>fetchord(val.book_id)}><i class="zmdi zmdi-eye"></i> </button></td> 
                 </tr>
                                        
                                         
@@ -130,26 +142,24 @@ const formatDate = (dateString) => {
                                         <tr>
                                             <th>Sr. No.</th>
                                             <th>Oreder ID</th>
-                                            <th>Image</th>
                                             <th data-breakpoints="xs">Date</th>
                                             <th data-breakpoints="xs">Quantity</th>
                                             <th data-breakpoints="xs">Total Price</th>
-                                        </tr>
+                                            </tr>
                                     </thead>
 
 
-                                    { order.map((val,index)=>{
+ { order.map((val,index)=>{
         return(
         <>
             <tbody>
                 <tr>
                     <td><b>{index+1}.</b></td>
                     <td>{val.book_id}</td>
-                    <td><img src={"http://localhost:1121/public/" +val.p_img } alt="dd" style={{width:"67px", height:"150px"  }}  class="product-thumnail"/></td> 
                     <td>{formatDate(val.when_oredered)}</td>
+                    {/* <td><img src={"http://localhost:1121/public/" +val.p_img } alt="dd" style={{width:"67px", height:"150px"  }}  class="product-thumnail"/></td>  */}
                     <td>{val.qty}</td>
-                    <td>{val.prc}</td>
-                    {/* <td style={{width:"50px",height:"10px"}}><button  class="btn btn-primary btn-block" data-toggle="modal" data-target="#largeModal" onClick={()=>fetchord(val.book_id)}><i class="zmdi zmdi-eye"></i> </button></td>  */}
+                    <td>Rs. {val.prc}</td>
                 </tr>
                                        
                                         
@@ -158,7 +168,8 @@ const formatDate = (dateString) => {
             </>
                 )
                     })
- }                    </table>
+ }
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -168,10 +179,8 @@ const formatDate = (dateString) => {
             </div>            
              </div>
             <div class="modal-footer">
-    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" style={{backgroundColor:"green"}} onClick={() => aproveord(oid)}>Approve Order</button>
-    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onClick={() => rejectord(oid)}>Reject Order</button>
-
-
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" style={{backgroundColor:"green"}} onClick={(e)=>acceptord(bid)}>Approve Order</button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onClick={(e)=>rejectord(bid)}>Reject Order</button>
             </div>
         </div>
     </div>
